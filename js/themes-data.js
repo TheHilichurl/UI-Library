@@ -40,7 +40,7 @@ const ROBOLX_THEMES = [
             success: '#00ff66'
         },
         geometry: { borderRadius: 4, borderWidth: 2, shadowSpread: 0, shadowBlur: 16, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: true, scanlines: true, animationType: 'spring', soundType: 'cyber' }
     },
     {
@@ -63,7 +63,7 @@ const ROBOLX_THEMES = [
             success: '#05ffa1'
         },
         geometry: { borderRadius: 10, borderWidth: 2, shadowSpread: 0, shadowBlur: 18, shadowOffsetY: 6 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: false, scanlines: false, animationType: 'smooth', soundType: 'retro' }
     },
     {
@@ -155,7 +155,7 @@ const ROBOLX_THEMES = [
             success: '#00e676'
         },
         geometry: { borderRadius: 2, borderWidth: 2, shadowSpread: 0, shadowBlur: 14, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: true, scanlines: false, animationType: 'spring', soundType: 'heavy' }
     },
     {
@@ -178,7 +178,7 @@ const ROBOLX_THEMES = [
             success: '#ffd000'
         },
         geometry: { borderRadius: 8, borderWidth: 2, shadowSpread: 0, shadowBlur: 20, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: false, scanlines: false, animationType: 'pulse', soundType: 'cyber' }
     },
     {
@@ -224,7 +224,7 @@ const ROBOLX_THEMES = [
             success: '#00ffcc'
         },
         geometry: { borderRadius: 6, borderWidth: 2, shadowSpread: 0, shadowBlur: 16, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: true, scanlines: false, animationType: 'spring', soundType: 'cyber' }
     },
     {
@@ -247,7 +247,7 @@ const ROBOLX_THEMES = [
             success: '#00e676'
         },
         geometry: { borderRadius: 4, borderWidth: 2, shadowSpread: 0, shadowBlur: 16, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: true, scanlines: false, animationType: 'spring', soundType: 'heavy' }
     },
     {
@@ -527,7 +527,7 @@ const ROBOLX_THEMES = [
             success: '#00f5d4'
         },
         geometry: { borderRadius: 14, borderWidth: 1.5, shadowSpread: 0, shadowBlur: 22, shadowOffsetY: 6 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: false, scanlines: false, glassBlur: true, animationType: 'pulse', soundType: 'magic' }
     },
 
@@ -646,7 +646,7 @@ const ROBOLX_THEMES = [
             success: '#39ff14'
         },
         geometry: { borderRadius: 0, borderWidth: 2.5, shadowSpread: 0, shadowBlur: 14, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: true, scanlines: true, animationType: 'spring', soundType: 'cyber' }
     },
     {
@@ -811,7 +811,7 @@ const ROBOLX_THEMES = [
             success: '#10b981'
         },
         geometry: { borderRadius: 6, borderWidth: 2, shadowSpread: 0, shadowBlur: 16, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: false, scanlines: false, animationType: 'spring', soundType: 'cyber' }
     },
     {
@@ -926,7 +926,7 @@ const ROBOLX_THEMES = [
             success: '#10b981'
         },
         geometry: { borderRadius: 4, borderWidth: 2, shadowSpread: 0, shadowBlur: 14, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: false, scanlines: false, animationType: 'spring', soundType: 'heavy' }
     },
     {
@@ -949,7 +949,7 @@ const ROBOLX_THEMES = [
             success: '#2a9d8f'
         },
         geometry: { borderRadius: 6, borderWidth: 2, shadowSpread: 0, shadowBlur: 16, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: false, scanlines: false, animationType: 'spring', soundType: 'cyber' }
     },
     {
@@ -995,7 +995,7 @@ const ROBOLX_THEMES = [
             success: '#00f59b'
         },
         geometry: { borderRadius: 0, borderWidth: 2, shadowSpread: 0, shadowBlur: 12, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: true, scanlines: false, animationType: 'spring', soundType: 'heavy' }
     },
 
@@ -1490,7 +1490,7 @@ const ROBOLX_THEMES = [
             success: '#ffaa00'
         },
         geometry: { borderRadius: 6, borderWidth: 2, shadowSpread: 0, shadowBlur: 18, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: false, scanlines: false, animationType: 'pulse', soundType: 'heavy' }
     },
     {
@@ -1605,7 +1605,7 @@ const ROBOLX_THEMES = [
             success: '#10b981'
         },
         geometry: { borderRadius: 10, borderWidth: 1.5, shadowSpread: 0, shadowBlur: 20, shadowOffsetY: 6 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: false, scanlines: false, animationType: 'pulse', soundType: 'magic' }
     },
     {
@@ -1674,7 +1674,7 @@ const ROBOLX_THEMES = [
             success: '#22c55e'
         },
         geometry: { borderRadius: 6, borderWidth: 2, shadowSpread: 0, shadowBlur: 18, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: true, scanlines: false, animationType: 'spring', soundType: 'heavy' }
     },
     {
@@ -1816,7 +1816,7 @@ const ROBOLX_THEMES = [
             success: '#10b981'
         },
         geometry: { borderRadius: 0, borderWidth: 2, shadowSpread: 0, shadowBlur: 16, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: true, scanlines: false, animationType: 'spring', soundType: 'heavy' }
     },
     {
@@ -1839,7 +1839,7 @@ const ROBOLX_THEMES = [
             success: '#14b8a6'
         },
         geometry: { borderRadius: 12, borderWidth: 1.5, shadowSpread: 0, shadowBlur: 20, shadowOffsetY: 4 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: false, scanlines: false, animationType: 'pulse', soundType: 'cyber' }
     },
     {
@@ -1862,7 +1862,7 @@ const ROBOLX_THEMES = [
             success: '#10b981'
         },
         geometry: { borderRadius: 14, borderWidth: 1.5, shadowSpread: 0, shadowBlur: 24, shadowOffsetY: 6 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: false, scanlines: false, animationType: 'smooth', soundType: 'magic' }
     },
     {
@@ -1885,7 +1885,7 @@ const ROBOLX_THEMES = [
             success: '#00f2fe'
         },
         geometry: { borderRadius: 16, borderWidth: 2, shadowSpread: 0, shadowBlur: 26, shadowOffsetY: 6 },
-        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.SciFi' },
+        typography: { webFont: "'Orbitron', sans-serif", robloxFont: 'Enum.Font.GothamBold' },
         effects: { glow: true, glitch: true, scanlines: false, animationType: 'spring', soundType: 'cyber' }
     }
 ];

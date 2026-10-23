@@ -493,6 +493,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // =========================================================================
+    // RESPONSIVE DEVICE RESOLUTION SWITCHER
+    // Demonstrates universal UIScale scaling across Mobile, Tablet, 1080p, 4K
+    // =========================================================================
+    const deviceButtons = document.querySelectorAll('.device-btn');
+    const scaleStatusTextEl = document.getElementById('scaleStatusText');
+
+    deviceButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            deviceButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const device = btn.dataset.device;
+            const scale = parseFloat(btn.dataset.scale) || 1.0;
+
+            robloxWindowEl.style.setProperty('--viewport-scale', scale);
+            AudioFx.play('click');
+
+            const labels = {
+                desktop: 'UIScale: 1.00x (Desktop 1080p)',
+                laptop: 'UIScale: 0.88x (Laptop / 1366×768)',
+                tablet: 'UIScale: 0.78x (Tablet / iPad)',
+                mobile: 'UIScale: 0.65x (Mobile Phone - Co giãn chống tràn)',
+                '4k': 'UIScale: 1.30x (2K/4K UHD)'
+            };
+
+            if (scaleStatusTextEl) {
+                scaleStatusTextEl.textContent = labels[device] || `UIScale: ${scale.toFixed(2)}x`;
+            }
+
+            showWebToast(`Chế độ mô phỏng: ${labels[device]}`, 'info');
+        });
+    });
+
     // Trigger Toast Notification inside simulated Roblox Viewport
     function triggerRobloxToast(title, desc, type = 'info') {
         const toast = document.createElement('div');

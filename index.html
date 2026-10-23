@@ -92,11 +92,36 @@
             <div class="viewport-toolbar">
                 <div class="viewport-title">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                    <span>Roblox Studio Viewport • Độ trung khớp 1:1 với mã nguồn Luau</span>
+                    <span>Roblox Studio Viewport</span>
                 </div>
-                <div style="font-size: 11px; color: var(--text-dim); display: flex; align-items: center; gap: 8px;">
-                    <span style="display: inline-block; width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></span>
-                    <span>Tương tác thực tế</span>
+
+                <!-- Universal Responsive Resolution Switcher -->
+                <div class="viewport-device-switcher" id="deviceSwitcher">
+                    <button class="device-btn active" data-device="desktop" data-scale="1.0" title="Desktop 1080p (Scale 1.0x - Chuẩn 1920x1080)">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                        <span>1080p</span>
+                    </button>
+                    <button class="device-btn" data-device="laptop" data-scale="0.88" title="Laptop / Màn hình nhỏ (Scale 0.88x - Chuẩn 1366x768)">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></svg>
+                        <span>Laptop</span>
+                    </button>
+                    <button class="device-btn" data-device="tablet" data-scale="0.78" title="Tablet / iPad (Scale 0.78x - Chuẩn 1024x768)">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="12" x2="12.01" y1="18" y2="18"/></svg>
+                        <span>Tablet</span>
+                    </button>
+                    <button class="device-btn" data-device="mobile" data-scale="0.65" title="Mobile Phone (Scale 0.65x - Tự động co giãn chống tràn viền và to chữ)">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg>
+                        <span>Mobile</span>
+                    </button>
+                    <button class="device-btn" data-device="4k" data-scale="1.30" title="2K / 4K UHD (Scale 1.30x - Hiển thị sắc nét trên màn hình lớn)">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M7 10v4"/><path d="M7 12h3"/><path d="M10 10v4"/><path d="M14 10v4"/><path d="m18 10-2 2 2 2"/></svg>
+                        <span>4K</span>
+                    </button>
+                </div>
+
+                <div class="viewport-responsive-badge" id="viewportResponsiveBadge" title="Động cơ UIScale tự động tính toán theo Camera.ViewportSize">
+                    <span class="badge-dot"></span>
+                    <span id="scaleStatusText">UIScale: 1.00x (Desktop)</span>
                 </div>
             </div>
 
