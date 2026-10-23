@@ -10,10 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeCategory = 'all';
     let searchQuery = '';
     let currentTheme = JSON.parse(JSON.stringify(ROBOLX_THEMES[0])); // Deep clone
+    let currentWindowSize = { width: 580, height: 420 };
+    let activeTabIdx = 0;
 
     // Interactive Widget States
     let toggleState = true;
-    let sliderValue = 50;
+    let sliderValue = 60;
     let dropdownSelected = 'Plasma Katana';
     let currentKeybind = 'RightControl';
     let isListeningKeybind = false;
@@ -27,10 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Viewport Elements
     const robloxWindowEl = document.getElementById('robloxWindow');
+    const rbxHeaderIconEl = document.getElementById('rbxHeaderIcon');
     const rbxTitleEl = document.getElementById('rbxTitle');
     const rbxSubtitleEl = document.getElementById('rbxSubtitle');
+    const rbxSidebarEl = document.getElementById('rbxSidebar');
     const rbxContentEl = document.getElementById('rbxContent');
     const rbxNotificationContainerEl = document.getElementById('rbxNotificationContainer');
+    const rbxResizeHandleEl = document.getElementById('rbxResizeHandle');
+    const rbxResizeTooltipEl = document.getElementById('rbxResizeTooltip');
 
     // Code & Customizer Elements
     const luaCodeOutputEl = document.getElementById('luaCodeOutput');
@@ -150,7 +156,10 @@ document.addEventListener('DOMContentLoaded', () => {
         root.style.setProperty('--theme-shadow-blur', `${geom.shadowBlur}px`);
         root.style.setProperty('--theme-font', currentTheme.typography.webFont);
 
-        // Header Labels
+        // Header Elements (with icon)
+        if (rbxHeaderIconEl) {
+            rbxHeaderIconEl.innerHTML = renderIcon('box', 22);
+        }
         rbxTitleEl.textContent = currentTheme.name.toUpperCase();
         rbxTitleEl.setAttribute('data-text', currentTheme.name.toUpperCase());
         rbxSubtitleEl.textContent = `${currentTheme.category.toUpperCase()} • CERTIFIED LUAU UI`;
@@ -166,6 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentTheme.id.includes('neumorph')) root.classList.add('effect-neumorph-dark');
         if (currentTheme.id.includes('clay')) root.classList.add('effect-clay');
 
+        // Render Sidebar Tabs with High-Quality Icons
+        renderSidebarTabs();
+
         // Update Color Inputs in Customizer Tab
         syncCustomizerInputs();
 
@@ -174,6 +186,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Regenerate Luau Code
         updateLuauCode();
+    }
+
+    // Render Sidebar Tabs with ImageLabel-equivalent icons
+    function renderSidebarTabs() {
+        if (!rbxSidebarEl) return;
+        const tabs = [
+            { name: 'Chính', icon: 'home' },
+            { name: 'Chiến đấu', icon: 'zap' },
+            { name: 'Hình ảnh', icon: 'crosshair' },
+            { name: 'Cài đặt', icon: 'settings' }
+        ];
+
+        rbxSidebarEl.innerHTML = tabs.map((tab, idx) => `
+            <button class="rbx-tab-btn ${idx === activeTabIdx ? 'active' : ''}" data-idx="${idx}">
+                <span class="rbx-tab-icon">${renderIcon(tab.icon, 16)}</span>
+                <span>${tab.name}</span>
+            </button>
+        `).join('');
+
+        rbxSidebarEl.querySelectorAll('.rbx-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                activeTabIdx = parseInt(btn.dataset.idx, 10);
+                AudioFx.play('click');
+                renderSidebarTabs();
+                renderRobloxWindowWidgets();
+            });
+        });
     }
 
     // Sync input controls with current theme
@@ -199,14 +238,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render interactive widgets inside the simulated Roblox window
     function renderRobloxWindowWidgets() {
         rbxContentEl.innerHTML = `
-            <!-- Action Button Widgets -->
+            <!-- Action Button Widgets with Verified Icons -->
             <div style="display: flex; gap: 10px;">
                 <button class="rbx-button-widget rbx-button-primary" id="rbxBtnPrimary" style="flex: 1;">
-                    ${renderIcon('zap', 14)}
+                    ${renderIcon('zap', 16)}
                     <span>Kích hoạt hành động</span>
                 </button>
                 <button class="rbx-button-widget" id="rbxBtnNotify" style="flex: 1;">
-                    ${renderIcon('bell', 14)}
+                    ${renderIcon('bell', 16)}
                     <span>Gửi thông báo</span>
                 </button>
             </div>
@@ -214,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <!-- Toggle Switch Widget -->
             <div class="rbx-toggle-card" id="rbxToggle">
                 <div class="rbx-toggle-info">
-                    <span class="rbx-toggle-title">Chế độ tự động nhắm (Aimbot)</span>
+                    <span class="rbx-toggle-title">Tự động nhắm mục tiêu (Aimbot)</span>
                     <span class="rbx-toggle-desc">Mượt mà hóa góc nhìn và theo dõi mục tiêu</span>
                 </div>
                 <div class="rbx-switch-track ${toggleState ? 'active' : ''}">
@@ -236,17 +275,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             <!-- Input Text Widget -->
             <div class="rbx-input-card">
-                <span class="rbx-input-label">Mục tiêu:</span>
+                <span class="rbx-input-label">Người chơi mục tiêu:</span>
                 <input type="text" class="rbx-text-input" id="rbxInputTarget" placeholder="Nhập tên người chơi..." value="Player_One" />
             </div>
 
             <!-- Dropdown Widget -->
             <div class="rbx-dropdown-card" id="rbxDropdown">
                 <div class="rbx-dropdown-header">
-                    <span class="rbx-slider-title">Vũ khí trang bị</span>
+                    <span class="rbx-slider-title">Trang bị vũ khí</span>
                     <span class="rbx-dropdown-selected" id="rbxDropdownSelected">
                         <span>${dropdownSelected}</span>
-                        ${renderIcon('sliders', 12)}
+                        ${renderIcon('sliders', 14)}
                     </span>
                 </div>
                 <div class="rbx-dropdown-menu">
@@ -263,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="rbx-toggle-title">Phím tắt bật/tắt menu</span>
                     <span class="rbx-toggle-desc">${isListeningKeybind ? 'Nhấn bất kỳ phím nào trên bàn phím...' : 'Nhấn để thay đổi phím tắt'}</span>
                 </div>
-                <button class="rbx-button-widget" id="rbxKeybindBtn" style="padding: 4px 12px; font-size: 11px;">
+                <button class="rbx-button-widget" id="rbxKeybindBtn" style="padding: 6px 14px; font-size: 13px;">
                     [ ${currentKeybind} ]
                 </button>
             </div>
@@ -278,14 +317,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnPrimary = document.getElementById('rbxBtnPrimary');
         btnPrimary.addEventListener('click', () => {
             AudioFx.play(currentTheme.effects?.soundType || 'click');
-            triggerRobloxToast('Hành động hoàn tất!', 'Đã thực thi hàm Callback trong Luau.', 'success');
+            triggerRobloxToast('Hành động hoàn tất!', 'Đã thực thi hàm Callback trong Luau thành công.', 'success');
         });
 
         // Notify Button
         const btnNotify = document.getElementById('rbxBtnNotify');
         btnNotify.addEventListener('click', () => {
             AudioFx.play('notify');
-            triggerRobloxToast('Thông báo hệ thống', `Áp dụng phong cách '${currentTheme.name}' thành công.`, 'info');
+            triggerRobloxToast('Thông báo hệ thống', `Áp dụng phong cách '${currentTheme.name}' với cỡ chữ lớn và icon sắc nét.`, 'info');
         });
 
         // Toggle Switch
@@ -397,19 +436,85 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // =========================================================================
+    // ARBITRARY RESIZE HANDLE EVENT LOGIC
+    // =========================================================================
+    if (rbxResizeHandleEl) {
+        let isResizing = false;
+        let startX, startY, startW, startH;
+
+        rbxResizeHandleEl.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            const rect = robloxWindowEl.getBoundingClientRect();
+            startW = rect.width;
+            startH = rect.height;
+
+            rbxResizeHandleEl.classList.add('active');
+            if (rbxResizeTooltipEl) {
+                rbxResizeTooltipEl.classList.add('visible');
+                rbxResizeTooltipEl.textContent = `${Math.round(startW)} × ${Math.round(startH)} px`;
+            }
+            AudioFx.play('click');
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            const deltaX = e.clientX - startX;
+            const deltaY = e.clientY - startY;
+
+            const newW = Math.max(420, Math.min(1000, Math.round(startW + deltaX)));
+            const newH = Math.max(280, Math.min(700, Math.round(startH + deltaY)));
+
+            robloxWindowEl.style.width = `${newW}px`;
+            robloxWindowEl.style.height = `${newH}px`;
+            currentWindowSize.width = newW;
+            currentWindowSize.height = newH;
+
+            if (rbxResizeTooltipEl) {
+                rbxResizeTooltipEl.textContent = `${newW} × ${newH} px`;
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                rbxResizeHandleEl.classList.remove('active');
+                if (rbxResizeTooltipEl) {
+                    rbxResizeTooltipEl.classList.remove('visible');
+                }
+                AudioFx.play('retro');
+                updateLuauCode();
+                showWebToast(`Đã đổi kích thước cửa sổ: ${currentWindowSize.width} × ${currentWindowSize.height} px`, 'info');
+            }
+        });
+    }
+
     // Trigger Toast Notification inside simulated Roblox Viewport
     function triggerRobloxToast(title, desc, type = 'info') {
         const toast = document.createElement('div');
         toast.className = 'rbx-toast';
 
         let accentColor = currentTheme.colors.primary;
-        if (type === 'success') accentColor = currentTheme.colors.success || '#10b981';
-        else if (type === 'danger') accentColor = currentTheme.colors.danger || '#ef4444';
+        let iconName = 'bell';
+        if (type === 'success') {
+            accentColor = currentTheme.colors.success || '#10b981';
+            iconName = 'check';
+        } else if (type === 'danger') {
+            accentColor = currentTheme.colors.danger || '#ef4444';
+            iconName = 'x';
+        }
 
         toast.style.borderColor = accentColor;
 
         toast.innerHTML = `
             <div class="rbx-toast-bar" style="background-color: ${accentColor};"></div>
+            <div style="color: ${accentColor}; display: flex; align-items: center; justify-content: center; padding-left: 6px;">
+                ${renderIcon(iconName, 20)}
+            </div>
             <div class="rbx-toast-body">
                 <span class="rbx-toast-title">${title}</span>
                 <span class="rbx-toast-desc">${desc}</span>
@@ -445,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Regenerate and update the Luau Code Output Box
     function updateLuauCode() {
-        const luaScript = RobloxConverter.generateLuaScript(currentTheme);
+        const luaScript = RobloxConverter.generateLuaScript(currentTheme, currentWindowSize);
         luaCodeOutputEl.textContent = luaScript;
     }
 
@@ -497,7 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Copy Lua Code button
     copyLuaBtn.addEventListener('click', () => {
-        const script = RobloxConverter.generateLuaScript(currentTheme);
+        const script = RobloxConverter.generateLuaScript(currentTheme, currentWindowSize);
         navigator.clipboard.writeText(script).then(() => {
             AudioFx.play('retro');
             showWebToast('Đã sao chép mã nguồn Luau vào Clipboard!', 'success');
@@ -506,7 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Download .lua file button
     downloadLuaBtn.addEventListener('click', () => {
-        const script = RobloxConverter.generateLuaScript(currentTheme);
+        const script = RobloxConverter.generateLuaScript(currentTheme, currentWindowSize);
         const fileName = `RobloxUILib_${currentTheme.id.replace(/-/g, '_')}.lua`;
         const blob = new Blob([script], { type: 'text/plain;charset=utf-8' });
         const url = URL.createObjectURL(blob);
@@ -541,7 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 8px; padding: 14px; margin-bottom: 16px;">
                 <div>
                     <h4 style="color: var(--accent-cyan); font-size: 16px; font-weight: 800;">Độ tương thích chuẩn hoá: ${suite.overallScore}%</h4>
-                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Đã kiểm thử toàn bộ 80/80 phong cách UI trên bộ chuyển đổi Luau.</p>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Đã kiểm thử toàn bộ 80/80 phong cách UI trên bộ chuyển đổi Luau v2.6.0.</p>
                 </div>
                 <div style="font-size: 24px; font-weight: 800; color: #10b981;">✓ 100% MATCH</div>
             </div>
