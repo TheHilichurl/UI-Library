@@ -1,0 +1,13 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs & temp
+*.log
+scratch/
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/

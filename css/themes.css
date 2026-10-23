@@ -1,0 +1,120 @@
+/* ==========================================================================
+   THEME FX, SCANLINES, GLITCH, NEUMORPHISM & RETRO EFFECTS
+   ========================================================================== */
+
+/* Scanlines Effect for CRT / Hacker / Retro Terminals */
+.effect-scanlines::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Glitch Animation */
+.effect-glitch .rbx-title {
+    position: relative;
+    display: inline-block;
+}
+
+.effect-glitch .rbx-title::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 2px;
+    text-shadow: -2px 0 #ff0055;
+    top: 0;
+    color: var(--theme-primary, #00f0ff);
+    overflow: hidden;
+    clip: rect(0, 900px, 0, 0);
+    animation: glitchAnim 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitchAnim {
+    0% { clip: rect(12px, 9999px, 44px, 0); transform: skew(0.3deg); }
+    10% { clip: rect(62px, 9999px, 12px, 0); transform: skew(0.8deg); }
+    20% { clip: rect(4px, 9999px, 80px, 0); transform: skew(0.1deg); }
+    30% { clip: rect(32px, 9999px, 18px, 0); transform: skew(0.5deg); }
+    100% { clip: rect(0, 0, 0, 0); }
+}
+
+/* Glassmorphism Frosted Blur */
+.effect-glass {
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+}
+
+/* Neumorphism Concave / Convex Shadowing */
+.effect-neumorph-dark {
+    box-shadow: 10px 10px 20px #0e1015, -10px -10px 20px #222633 !important;
+}
+
+.effect-neumorph-dark .rbx-button-widget,
+.effect-neumorph-dark .rbx-toggle-card,
+.effect-neumorph-dark .rbx-slider-card,
+.effect-neumorph-dark .rbx-input-card {
+    box-shadow: 4px 4px 8px #0f1117, -4px -4px 8px #252b3b !important;
+    border: none !important;
+}
+
+.effect-neumorph-dark .rbx-button-widget:active {
+    box-shadow: inset 4px 4px 8px #0f1117, inset -4px -4px 8px #252b3b !important;
+}
+
+/* Windows 98 Classic 3D Bevel Buttons */
+.effect-bevel .rbx-header {
+    background: #000080 !important;
+    color: #fff !important;
+}
+
+.effect-bevel .rbx-button-widget {
+    border-top: 2px solid #ffffff !important;
+    border-left: 2px solid #ffffff !important;
+    border-right: 2px solid #404040 !important;
+    border-bottom: 2px solid #404040 !important;
+    border-radius: 0 !important;
+    background: #c0c0c0 !important;
+    color: #000000 !important;
+}
+
+.effect-bevel .rbx-button-widget:active {
+    border-top: 2px solid #404040 !important;
+    border-left: 2px solid #404040 !important;
+    border-right: 2px solid #ffffff !important;
+    border-bottom: 2px solid #ffffff !important;
+}
+
+/* Brutalist Hard Shadows */
+.effect-brutalist {
+    box-shadow: 8px 8px 0px #000000 !important;
+    border-radius: 0 !important;
+}
+
+.effect-brutalist .rbx-button-widget,
+.effect-brutalist .rbx-toggle-card,
+.effect-brutalist .rbx-slider-card,
+.effect-brutalist .rbx-input-card {
+    box-shadow: 4px 4px 0px #000000 !important;
+    border-radius: 0 !important;
+}
+
+.effect-brutalist .rbx-button-widget:active {
+    transform: translate(2px, 2px) !important;
+    box-shadow: 2px 2px 0px #000000 !important;
+}
+
+/* Claymorphism 3D Playful Puff */
+.effect-clay {
+    box-shadow: 0 16px 32px rgba(142, 128, 185, 0.35), inset 0 3px 6px rgba(255, 255, 255, 0.8) !important;
+}
+
+.effect-clay .rbx-button-widget,
+.effect-clay .rbx-toggle-card,
+.effect-clay .rbx-slider-card,
+.effect-clay .rbx-input-card {
+    box-shadow: 0 8px 16px rgba(142, 128, 185, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.9) !important;
+    border-radius: 20px !important;
+}

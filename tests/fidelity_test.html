@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Automated Fidelity Test Suite • 80 Themes Roblox UI Transpiler</title>
+    <style>
+        body { font-family: monospace; background: #0a0b10; color: #f8fafc; padding: 24px; }
+        .pass { color: #10b981; }
+        .fail { color: #ef4444; }
+        .summary-card { background: #151822; padding: 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 12px; }
+        th { color: #00f0ff; background: rgba(0, 240, 255, 0.05); }
+    </style>
+</head>
+<body>
+    <h1>Roblox UI Studio - Automated Fidelity & Regression Test Suite</h1>
+    <div class="summary-card" id="summaryCard">Running automated tests on all 80 themes...</div>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Theme ID</th>
+                <th>Theme Name</th>
+                <th>Category</th>
+                <th>Tests Total</th>
+                <th>Passed</th>
+                <th>Fidelity Score</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+    </table>
+
+    <script src="../js/icon-system.js"></script>
+    <script src="../js/themes-data.js"></script>
+    <script src="../js/roblox-converter.js"></script>
+    <script src="../js/validator.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const validator = new UIStudioValidator(ROBOLX_THEMES, RobloxConverter);
+            const suite = validator.runFullSuite();
+
+            document.getElementById('summaryCard').innerHTML = `
+                <h2 style="color: #00f0ff;">OVERALL RESULT: ${suite.overallScore}% MATCH</h2>
+                <p>Total Themes: <strong>${suite.totalThemes}</strong> | Total Assertions: <strong>${suite.totalChecks}</strong> | Passed: <strong class="pass">${suite.totalPassed}</strong></p>
+                <p>Certification Status: <strong>${suite.isCertified ? 'CERTIFIED 100% ROBUST & EQUIVALENT' : 'FAILED'}</strong></p>
+            `;
+
+            const tbody = document.getElementById('resultsBody');
+            tbody.innerHTML = suite.themesResults.map((r, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td><code>${r.themeId}</code></td>
+                    <td>${r.themeName}</td>
+                    <td>${ROBOLX_THEMES[i].category}</td>
+                    <td>${r.total}</td>
+                    <td class="pass">${r.passed}</td>
+                    <td><strong>${r.score}%</strong></td>
+                    <td class="${r.isCertified ? 'pass' : 'fail'}">${r.isCertified ? '✓ PASSED' : '✕ FAILED'}</td>
+                </tr>
+            `).join('');
+        });
+    </script>
+</body>
+</html>
