@@ -53,6 +53,7 @@ local UniversalLibrary = {
         Radius = 10,
         BorderWidth = 1.5,
         Font = Enum.Font.GothamBold,
+        FontScale = 1.20,
         EasingStyle = Enum.EasingStyle.Quad,
         EasingDirection = Enum.EasingDirection.Out,
         TweenDuration = 0.25
@@ -112,6 +113,11 @@ local function AddStroke(parent, color, thickness)
     return s
 end
 
+-- Helper: Calculate Responsive Font Size (High Readability)
+local function GetTextSize(baseSize)
+    return math.round(baseSize * (UniversalLibrary.DefaultTheme.FontScale or 1.20))
+end
+
 -- =============================================================================
 -- NOTIFICATION SYSTEM (Verified ImageLabels & Proportional Responsive Text)
 -- =============================================================================
@@ -150,7 +156,7 @@ function UniversalLibrary:Notify(config)
 
     local Toast = Instance.new("Frame")
     Toast.Name = "Toast"
-    Toast.Size = UDim2.new(1, 0, 0, 62)
+    Toast.Size = UDim2.new(1, 0, 0, 74)
     Toast.BackgroundColor3 = theme.Surface
     Toast.BackgroundTransparency = 0.05
     Toast.Position = UDim2.new(1, 40, 0, 0)
@@ -181,11 +187,11 @@ function UniversalLibrary:Notify(config)
     local TitleLbl = Instance.new("TextLabel")
     TitleLbl.Text = nTitle
     TitleLbl.Font = Enum.Font.GothamBold
-    TitleLbl.TextSize = 13
+    TitleLbl.TextSize = GetTextSize(18)
     TitleLbl.TextColor3 = theme.Text
     TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
-    TitleLbl.Position = UDim2.new(0, 44, 0, 10)
-    TitleLbl.Size = UDim2.new(1, -50, 0, 18)
+    TitleLbl.Position = UDim2.new(0, 44, 0, 7)
+    TitleLbl.Size = UDim2.new(1, -50, 0, 24)
     TitleLbl.BackgroundTransparency = 1
     TitleLbl.Parent = Toast
 
@@ -193,11 +199,11 @@ function UniversalLibrary:Notify(config)
     local DescLbl = Instance.new("TextLabel")
     DescLbl.Text = nDesc
     DescLbl.Font = Enum.Font.Gotham
-    DescLbl.TextSize = 11
+    DescLbl.TextSize = GetTextSize(15)
     DescLbl.TextColor3 = theme.TextDim
     DescLbl.TextXAlignment = Enum.TextXAlignment.Left
-    DescLbl.Position = UDim2.new(0, 44, 0, 28)
-    DescLbl.Size = UDim2.new(1, -50, 0, 24)
+    DescLbl.Position = UDim2.new(0, 44, 0, 32)
+    DescLbl.Size = UDim2.new(1, -50, 0, 36)
     DescLbl.BackgroundTransparency = 1
     DescLbl.TextWrapped = true
     DescLbl.Parent = Toast
@@ -225,6 +231,11 @@ end
 function UniversalLibrary:CreateWindow(config)
     config = config or {}
     local theme = config.Theme or self.DefaultTheme
+    local fontScale = (config.Theme and config.Theme.FontScale) or config.FontScale or theme.FontScale or 1.15
+    local function GetTextSize(baseSize)
+        return math.round(baseSize * fontScale)
+    end
+
     local title = config.Title or "SYNTHWAVE NEON OUTRUN 1984"
     local subtitle = config.Subtitle or "CYBERPUNK • CERTIFIED LUAU UI"
     local size = config.Size or UDim2.new(0, 580, 0, 420)
@@ -256,21 +267,21 @@ function UniversalLibrary:CreateWindow(config)
         if vp.X == 0 or vp.Y == 0 then return end
 
         local targetScale
-        if vp.Y <= 450 then
-            -- Mobile phone landscape (prevents screen overflow)
-            targetScale = math.clamp(vp.Y / 520, 0.58, 0.75)
-        elseif vp.Y <= 850 then
-            -- Tablet / iPad / Small Laptop
-            targetScale = math.clamp(vp.Y / 850 * 0.92, 0.76, 0.95)
+        if vp.Y < 460 or vp.X < 850 then
+            -- Genuine Mobile Phone landscape: 0.88x - 1.00x ensures bold, readable text!
+            targetScale = math.clamp(vp.Y / 440, 0.88, 1.00)
+        elseif vp.Y < 720 or vp.X < 1200 then
+            -- Small Laptop or docked Roblox Studio Game Viewport: Keep scale 1.15x!
+            targetScale = 1.15
         elseif vp.Y <= 1150 then
-            -- Standard 1080p Desktop
-            targetScale = 1.0
-        elseif vp.Y <= 1500 then
-            -- 1440p / 2K Display
+            -- Standard 1080p Desktop: 1.25x for maximum legibility and presence!
             targetScale = 1.25
+        elseif vp.Y <= 1500 then
+            -- 2K QHD Display (1440p): 1.55x
+            targetScale = 1.55
         else
-            -- 4K Ultra HD Display
-            targetScale = math.clamp(vp.Y / 2160 * 1.8, 1.4, 2.0)
+            -- 4K Ultra HD Display (2160p): 2.15x
+            targetScale = math.clamp(vp.Y / 2160 * 2.2, 1.95, 2.4)
         end
         ResponsiveScale.Scale = targetScale
     end
@@ -281,7 +292,7 @@ function UniversalLibrary:CreateWindow(config)
     -- Top Header / Drag Bar
     local Header = Instance.new("Frame")
     Header.Name = "Header"
-    Header.Size = UDim2.new(1, 0, 0, 50)
+    Header.Size = UDim2.new(1, 0, 0, 56)
     Header.BackgroundColor3 = theme.Surface
     Header.BackgroundTransparency = theme.SurfaceTransparency or 0
     Header.BorderSizePixel = 0
@@ -298,8 +309,8 @@ function UniversalLibrary:CreateWindow(config)
     -- Header Icon
     local HeaderIcon = Instance.new("ImageLabel")
     HeaderIcon.Name = "HeaderIcon"
-    HeaderIcon.Size = UDim2.new(0, 22, 0, 22)
-    HeaderIcon.Position = UDim2.new(0, 16, 0.5, -11)
+    HeaderIcon.Size = UDim2.new(0, 24, 0, 24)
+    HeaderIcon.Position = UDim2.new(0, 16, 0.5, -12)
     HeaderIcon.BackgroundTransparency = 1
     HeaderIcon.Image = winIcon
     HeaderIcon.ImageColor3 = theme.Primary
@@ -310,43 +321,43 @@ function UniversalLibrary:CreateWindow(config)
     local TitleLbl = Instance.new("TextLabel")
     TitleLbl.Text = title
     TitleLbl.Font = theme.Font or Enum.Font.GothamBold
-    TitleLbl.TextSize = 15
+    TitleLbl.TextSize = GetTextSize(22)
     TitleLbl.TextColor3 = theme.Primary
     TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
-    TitleLbl.Position = UDim2.new(0, 46, 0, 6)
-    TitleLbl.Size = UDim2.new(0.65, 0, 0, 20)
+    TitleLbl.Position = UDim2.new(0, 48, 0, 6)
+    TitleLbl.Size = UDim2.new(0.65, 0, 0, 26)
     TitleLbl.BackgroundTransparency = 1
     TitleLbl.Parent = Header
 
     local SubtitleLbl = Instance.new("TextLabel")
     SubtitleLbl.Text = subtitle
     SubtitleLbl.Font = Enum.Font.Gotham
-    SubtitleLbl.TextSize = 11
+    SubtitleLbl.TextSize = GetTextSize(15)
     SubtitleLbl.TextColor3 = theme.TextDim
     SubtitleLbl.TextXAlignment = Enum.TextXAlignment.Left
-    SubtitleLbl.Position = UDim2.new(0, 46, 0, 26)
-    SubtitleLbl.Size = UDim2.new(0.65, 0, 0, 16)
+    SubtitleLbl.Position = UDim2.new(0, 48, 0, 32)
+    SubtitleLbl.Size = UDim2.new(0.65, 0, 0, 20)
     SubtitleLbl.BackgroundTransparency = 1
     SubtitleLbl.Parent = Header
 
     -- Minimize & Close Buttons (Plain ASCII, Zero Broken Unicode Boxes)
     local MinBtn = Instance.new("TextButton")
-    MinBtn.Size = UDim2.new(0, 28, 0, 28)
-    MinBtn.Position = UDim2.new(1, -70, 0, 11)
+    MinBtn.Size = UDim2.new(0, 30, 0, 30)
+    MinBtn.Position = UDim2.new(1, -74, 0, 13)
     MinBtn.Text = "-"
     MinBtn.Font = Enum.Font.GothamBold
-    MinBtn.TextSize = 16
+    MinBtn.TextSize = GetTextSize(18)
     MinBtn.TextColor3 = theme.TextDim
     MinBtn.BackgroundColor3 = theme.SurfaceHover
     MinBtn.Parent = Header
     AddCorner(MinBtn, 6)
 
     local CloseBtn = Instance.new("TextButton")
-    CloseBtn.Size = UDim2.new(0, 28, 0, 28)
-    CloseBtn.Position = UDim2.new(1, -38, 0, 11)
+    CloseBtn.Size = UDim2.new(0, 30, 0, 30)
+    CloseBtn.Position = UDim2.new(1, -38, 0, 13)
     CloseBtn.Text = "X"
     CloseBtn.Font = Enum.Font.GothamBold
-    CloseBtn.TextSize = 13
+    CloseBtn.TextSize = GetTextSize(16)
     CloseBtn.TextColor3 = theme.TextDim
     CloseBtn.BackgroundColor3 = theme.SurfaceHover
     CloseBtn.Parent = Header
@@ -426,7 +437,7 @@ function UniversalLibrary:CreateWindow(config)
     ResizeHandle.BackgroundTransparency = 1
     ResizeHandle.Text = "◢"
     ResizeHandle.Font = Enum.Font.GothamBold
-    ResizeHandle.TextSize = 14
+    ResizeHandle.TextSize = GetTextSize(16)
     ResizeHandle.TextColor3 = theme.TextDim
     ResizeHandle.ZIndex = 50
     ResizeHandle.Parent = Win
@@ -469,8 +480,8 @@ function UniversalLibrary:CreateWindow(config)
     -- Sidebar / Tab List
     local Sidebar = Instance.new("Frame")
     Sidebar.Name = "Sidebar"
-    Sidebar.Size = UDim2.new(0, 150, 1, -50)
-    Sidebar.Position = UDim2.new(0, 0, 0, 50)
+    Sidebar.Size = UDim2.new(0, 175, 1, -56)
+    Sidebar.Position = UDim2.new(0, 0, 0, 56)
     Sidebar.BackgroundColor3 = theme.Surface
     Sidebar.BackgroundTransparency = 0.7
     Sidebar.BorderSizePixel = 0
@@ -490,8 +501,8 @@ function UniversalLibrary:CreateWindow(config)
     -- Main Content Area
     local ContentArea = Instance.new("Frame")
     ContentArea.Name = "ContentArea"
-    ContentArea.Size = UDim2.new(1, -150, 1, -50)
-    ContentArea.Position = UDim2.new(0, 150, 0, 50)
+    ContentArea.Size = UDim2.new(1, -175, 1, -56)
+    ContentArea.Position = UDim2.new(0, 175, 0, 56)
     ContentArea.BackgroundTransparency = 1
     ContentArea.ClipsDescendants = true
     ContentArea.Parent = Win
@@ -505,7 +516,7 @@ function UniversalLibrary:CreateWindow(config)
     function WinObject:CreateTab(name, iconAsset)
         local TabBtn = Instance.new("TextButton")
         TabBtn.Name = name .. "TabBtn"
-        TabBtn.Size = UDim2.new(1, 0, 0, 38)
+        TabBtn.Size = UDim2.new(1, 0, 0, 46)
         TabBtn.Text = ""
         TabBtn.BackgroundColor3 = theme.Surface
         TabBtn.BackgroundTransparency = 1
@@ -514,8 +525,8 @@ function UniversalLibrary:CreateWindow(config)
 
         local IconImg = Instance.new("ImageLabel")
         IconImg.Name = "TabIcon"
-        IconImg.Size = UDim2.new(0, 18, 0, 18)
-        IconImg.Position = UDim2.new(0, 10, 0.5, -9)
+        IconImg.Size = UDim2.new(0, 20, 0, 20)
+        IconImg.Position = UDim2.new(0, 10, 0.5, -10)
         IconImg.BackgroundTransparency = 1
         IconImg.Image = iconAsset or "rbxassetid://7733960981"
         IconImg.ImageColor3 = theme.TextDim
@@ -526,11 +537,11 @@ function UniversalLibrary:CreateWindow(config)
         TabText.Name = "TabText"
         TabText.Text = name
         TabText.Font = theme.Font
-        TabText.TextSize = 13
+        TabText.TextSize = GetTextSize(18)
         TabText.TextColor3 = theme.TextDim
         TabText.TextXAlignment = Enum.TextXAlignment.Left
-        TabText.Position = UDim2.new(0, 36, 0, 0)
-        TabText.Size = UDim2.new(1, -40, 1, 0)
+        TabText.Position = UDim2.new(0, 40, 0, 0)
+        TabText.Size = UDim2.new(1, -44, 1, 0)
         TabText.BackgroundTransparency = 1
         TabText.Parent = TabBtn
 
@@ -596,7 +607,7 @@ function UniversalLibrary:CreateWindow(config)
         function Elements:CreateButtonRow(opt1, opt2)
             local RowFrame = Instance.new("Frame")
             RowFrame.Name = "ButtonRow"
-            RowFrame.Size = UDim2.new(1, 0, 0, 42)
+            RowFrame.Size = UDim2.new(1, 0, 0, 48)
             RowFrame.BackgroundTransparency = 1
             RowFrame.Parent = TabPage
 
@@ -615,8 +626,8 @@ function UniversalLibrary:CreateWindow(config)
 
                 if opt.Icon then
                     local btnIcon = Instance.new("ImageLabel")
-                    btnIcon.Size = UDim2.new(0, 18, 0, 18)
-                    btnIcon.Position = UDim2.new(0, 12, 0.5, -9)
+                    btnIcon.Size = UDim2.new(0, 20, 0, 20)
+                    btnIcon.Position = UDim2.new(0, 12, 0.5, -10)
                     btnIcon.BackgroundTransparency = 1
                     btnIcon.Image = opt.Icon
                     btnIcon.ImageColor3 = isPrimary and Color3.fromRGB(0, 0, 0) or theme.Primary
@@ -627,11 +638,11 @@ function UniversalLibrary:CreateWindow(config)
                 local btnLbl = Instance.new("TextLabel")
                 btnLbl.Text = opt.Name or "Button"
                 btnLbl.Font = theme.Font
-                btnLbl.TextSize = 13
+                btnLbl.TextSize = GetTextSize(18)
                 btnLbl.TextColor3 = isPrimary and Color3.fromRGB(0, 0, 0) or theme.Text
                 btnLbl.TextXAlignment = opt.Icon and Enum.TextXAlignment.Left or Enum.TextXAlignment.Center
-                btnLbl.Position = opt.Icon and UDim2.new(0, 36, 0, 0) or UDim2.new(0, 0, 0, 0)
-                btnLbl.Size = opt.Icon and UDim2.new(1, -40, 1, 0) or UDim2.new(1, 0, 1, 0)
+                btnLbl.Position = opt.Icon and UDim2.new(0, 38, 0, 0) or UDim2.new(0, 0, 0, 0)
+                btnLbl.Size = opt.Icon and UDim2.new(1, -42, 1, 0) or UDim2.new(1, 0, 1, 0)
                 btnLbl.BackgroundTransparency = 1
                 btnLbl.Parent = btn
 
@@ -665,7 +676,7 @@ function UniversalLibrary:CreateWindow(config)
 
             local BtnFrame = Instance.new("TextButton")
             BtnFrame.Name = btnName
-            BtnFrame.Size = UDim2.new(1, 0, 0, 42)
+            BtnFrame.Size = UDim2.new(1, 0, 0, 48)
             BtnFrame.BackgroundColor3 = isPrimary and theme.Primary or theme.Surface
             BtnFrame.BackgroundTransparency = isPrimary and 0 or (theme.SurfaceTransparency or 0)
             BtnFrame.Text = ""
@@ -676,8 +687,8 @@ function UniversalLibrary:CreateWindow(config)
 
             if opt.Icon then
                 local btnIcon = Instance.new("ImageLabel")
-                btnIcon.Size = UDim2.new(0, 18, 0, 18)
-                btnIcon.Position = UDim2.new(0, 12, 0.5, -9)
+                btnIcon.Size = UDim2.new(0, 20, 0, 20)
+                btnIcon.Position = UDim2.new(0, 12, 0.5, -10)
                 btnIcon.BackgroundTransparency = 1
                 btnIcon.Image = opt.Icon
                 btnIcon.ImageColor3 = isPrimary and Color3.fromRGB(0, 0, 0) or theme.Primary
@@ -688,11 +699,11 @@ function UniversalLibrary:CreateWindow(config)
             local BtnLabel = Instance.new("TextLabel")
             BtnLabel.Text = btnName
             BtnLabel.Font = theme.Font
-            BtnLabel.TextSize = 13
+            BtnLabel.TextSize = GetTextSize(18)
             BtnLabel.TextColor3 = isPrimary and Color3.fromRGB(0, 0, 0) or theme.Text
             BtnLabel.TextXAlignment = opt.Icon and Enum.TextXAlignment.Left or Enum.TextXAlignment.Center
-            BtnLabel.Position = opt.Icon and UDim2.new(0, 36, 0, 0) or UDim2.new(0, 0, 0, 0)
-            BtnLabel.Size = opt.Icon and UDim2.new(1, -40, 1, 0) or UDim2.new(1, 0, 1, 0)
+            BtnLabel.Position = opt.Icon and UDim2.new(0, 38, 0, 0) or UDim2.new(0, 0, 0, 0)
+            BtnLabel.Size = opt.Icon and UDim2.new(1, -42, 1, 0) or UDim2.new(1, 0, 1, 0)
             BtnLabel.BackgroundTransparency = 1
             BtnLabel.Parent = BtnFrame
 
@@ -703,10 +714,10 @@ function UniversalLibrary:CreateWindow(config)
                 Tween(BtnFrame, { BackgroundColor3 = isPrimary and theme.Primary or theme.Surface }, 0.15)
             end)
             BtnFrame.MouseButton1Down:Connect(function()
-                Tween(BtnFrame, { Size = UDim2.new(1, -4, 0, 40) }, 0.08)
+                Tween(BtnFrame, { Size = UDim2.new(1, -4, 0, 44) }, 0.08)
             end)
             BtnFrame.MouseButton1Up:Connect(function()
-                Tween(BtnFrame, { Size = UDim2.new(1, 0, 0, 42) }, 0.1)
+                Tween(BtnFrame, { Size = UDim2.new(1, 0, 0, 48) }, 0.1)
                 pcall(callback)
             end)
             return BtnFrame
@@ -721,7 +732,7 @@ function UniversalLibrary:CreateWindow(config)
             local callback = opt.Callback or function() end
 
             local hasDesc = toggleDesc ~= ""
-            local cardHeight = hasDesc and 50 or 44
+            local cardHeight = hasDesc and 62 or 50
 
             local ToggleCard = Instance.new("Frame")
             ToggleCard.Name = toggleName
@@ -735,11 +746,11 @@ function UniversalLibrary:CreateWindow(config)
             local Label = Instance.new("TextLabel")
             Label.Text = toggleName
             Label.Font = theme.Font
-            Label.TextSize = 13
+            Label.TextSize = GetTextSize(18)
             Label.TextColor3 = theme.Text
             Label.TextXAlignment = Enum.TextXAlignment.Left
-            Label.Position = UDim2.new(0, 14, 0, hasDesc and 6 or 12)
-            Label.Size = UDim2.new(1, -80, 0, 18)
+            Label.Position = UDim2.new(0, 14, 0, hasDesc and 8 or 14)
+            Label.Size = UDim2.new(1, -80, 0, 24)
             Label.BackgroundTransparency = 1
             Label.Parent = ToggleCard
 
@@ -747,33 +758,33 @@ function UniversalLibrary:CreateWindow(config)
                 local SubLabel = Instance.new("TextLabel")
                 SubLabel.Text = toggleDesc
                 SubLabel.Font = Enum.Font.Gotham
-                SubLabel.TextSize = 11
+                SubLabel.TextSize = GetTextSize(15)
                 SubLabel.TextColor3 = theme.TextDim
                 SubLabel.TextXAlignment = Enum.TextXAlignment.Left
-                SubLabel.Position = UDim2.new(0, 14, 0, 26)
-                SubLabel.Size = UDim2.new(1, -80, 0, 16)
+                SubLabel.Position = UDim2.new(0, 14, 0, 33)
+                SubLabel.Size = UDim2.new(1, -80, 0, 20)
                 SubLabel.BackgroundTransparency = 1
                 SubLabel.Parent = ToggleCard
             end
 
             local SwitchTrack = Instance.new("TextButton")
             SwitchTrack.Text = ""
-            SwitchTrack.Size = UDim2.new(0, 44, 0, 24)
-            SwitchTrack.Position = UDim2.new(1, -58, 0.5, -12)
+            SwitchTrack.Size = UDim2.new(0, 48, 0, 26)
+            SwitchTrack.Position = UDim2.new(1, -62, 0.5, -13)
             SwitchTrack.BackgroundColor3 = state and theme.Primary or theme.SurfaceHover
             SwitchTrack.Parent = ToggleCard
-            AddCorner(SwitchTrack, 12)
+            AddCorner(SwitchTrack, 13)
 
             local SwitchKnob = Instance.new("Frame")
-            SwitchKnob.Size = UDim2.new(0, 18, 0, 18)
-            SwitchKnob.Position = state and UDim2.new(1, -21, 0.5, -9) or UDim2.new(0, 3, 0.5, -9)
+            SwitchKnob.Size = UDim2.new(0, 20, 0, 20)
+            SwitchKnob.Position = state and UDim2.new(1, -23, 0.5, -10) or UDim2.new(0, 3, 0.5, -10)
             SwitchKnob.BackgroundColor3 = state and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(255, 255, 255)
             SwitchKnob.Parent = SwitchTrack
-            AddCorner(SwitchKnob, 9)
+            AddCorner(SwitchKnob, 10)
 
             local function UpdateState(newState)
                 state = newState
-                local targetKnobPos = state and UDim2.new(1, -21, 0.5, -9) or UDim2.new(0, 3, 0.5, -9)
+                local targetKnobPos = state and UDim2.new(1, -23, 0.5, -10) or UDim2.new(0, 3, 0.5, -10)
                 local targetTrackColor = state and theme.Primary or theme.SurfaceHover
                 local targetKnobColor = state and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(255, 255, 255)
 
@@ -802,7 +813,7 @@ function UniversalLibrary:CreateWindow(config)
             local callback = opt.Callback or function() end
 
             local SliderCard = Instance.new("Frame")
-            SliderCard.Size = UDim2.new(1, 0, 0, 56)
+            SliderCard.Size = UDim2.new(1, 0, 0, 70)
             SliderCard.BackgroundColor3 = theme.Surface
             SliderCard.BackgroundTransparency = theme.SurfaceTransparency or 0
             SliderCard.Parent = TabPage
@@ -812,32 +823,32 @@ function UniversalLibrary:CreateWindow(config)
             local Label = Instance.new("TextLabel")
             Label.Text = sliderName
             Label.Font = theme.Font
-            Label.TextSize = 13
+            Label.TextSize = GetTextSize(18)
             Label.TextColor3 = theme.Text
             Label.TextXAlignment = Enum.TextXAlignment.Left
             Label.Position = UDim2.new(0, 14, 0, 8)
-            Label.Size = UDim2.new(0.7, 0, 0, 18)
+            Label.Size = UDim2.new(0.68, 0, 0, 24)
             Label.BackgroundTransparency = 1
             Label.Parent = SliderCard
 
             local ValueLabel = Instance.new("TextLabel")
             ValueLabel.Text = tostring(default)
             ValueLabel.Font = Enum.Font.GothamBold
-            ValueLabel.TextSize = 13
+            ValueLabel.TextSize = GetTextSize(18)
             ValueLabel.TextColor3 = theme.Primary
             ValueLabel.TextXAlignment = Enum.TextXAlignment.Right
-            ValueLabel.Position = UDim2.new(0.7, 0, 0, 8)
-            ValueLabel.Size = UDim2.new(0.3, -14, 0, 18)
+            ValueLabel.Position = UDim2.new(0.68, 0, 0, 8)
+            ValueLabel.Size = UDim2.new(0.32, -14, 0, 24)
             ValueLabel.BackgroundTransparency = 1
             ValueLabel.Parent = SliderCard
 
             local SliderBar = Instance.new("TextButton")
             SliderBar.Text = ""
-            SliderBar.Size = UDim2.new(1, -28, 0, 6)
-            SliderBar.Position = UDim2.new(0, 14, 0, 36)
+            SliderBar.Size = UDim2.new(1, -28, 0, 8)
+            SliderBar.Position = UDim2.new(0, 14, 0, 44)
             SliderBar.BackgroundColor3 = theme.SurfaceHover
             SliderBar.Parent = SliderCard
-            AddCorner(SliderBar, 3)
+            AddCorner(SliderBar, 4)
 
             local initialPct = math.clamp((default - min) / (max - min), 0, 1)
 
@@ -846,17 +857,17 @@ function UniversalLibrary:CreateWindow(config)
             Fill.BackgroundColor3 = theme.Primary
             Fill.BorderSizePixel = 0
             Fill.Parent = SliderBar
-            AddCorner(Fill, 3)
+            AddCorner(Fill, 4)
 
             -- Circular Dragger Knob
             local Knob = Instance.new("Frame")
             Knob.Name = "Knob"
-            Knob.Size = UDim2.new(0, 16, 0, 16)
+            Knob.Size = UDim2.new(0, 20, 0, 20)
             Knob.AnchorPoint = Vector2.new(0.5, 0.5)
             Knob.Position = UDim2.new(initialPct, 0, 0.5, 0)
             Knob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             Knob.Parent = SliderBar
-            AddCorner(Knob, 8)
+            AddCorner(Knob, 10)
 
             local draggingSlider = false
             local function UpdateSlider(input)
@@ -895,7 +906,7 @@ function UniversalLibrary:CreateWindow(config)
             local callback = opt.Callback or function() end
 
             local InputCard = Instance.new("Frame")
-            InputCard.Size = UDim2.new(1, 0, 0, 44)
+            InputCard.Size = UDim2.new(1, 0, 0, 54)
             InputCard.BackgroundColor3 = theme.Surface
             InputCard.BackgroundTransparency = theme.SurfaceTransparency or 0
             InputCard.Parent = TabPage
@@ -905,17 +916,17 @@ function UniversalLibrary:CreateWindow(config)
             local Label = Instance.new("TextLabel")
             Label.Text = inputName
             Label.Font = theme.Font
-            Label.TextSize = 13
+            Label.TextSize = GetTextSize(18)
             Label.TextColor3 = theme.Text
             Label.TextXAlignment = Enum.TextXAlignment.Left
             Label.Position = UDim2.new(0, 14, 0, 0)
-            Label.Size = UDim2.new(0.45, 0, 1, 0)
+            Label.Size = UDim2.new(0.44, 0, 1, 0)
             Label.BackgroundTransparency = 1
             Label.Parent = InputCard
 
             local BoxFrame = Instance.new("Frame")
-            BoxFrame.Size = UDim2.new(0.5, -14, 0, 28)
-            BoxFrame.Position = UDim2.new(0.5, 0, 0.5, -14)
+            BoxFrame.Size = UDim2.new(0.54, -14, 0, 38)
+            BoxFrame.Position = UDim2.new(0.46, 0, 0.5, -19)
             BoxFrame.BackgroundColor3 = theme.SurfaceHover
             BoxFrame.Parent = InputCard
             AddCorner(BoxFrame, 6)
@@ -927,7 +938,7 @@ function UniversalLibrary:CreateWindow(config)
             TextBox.Text = defaultVal
             TextBox.PlaceholderText = placeholder
             TextBox.Font = Enum.Font.Gotham
-            TextBox.TextSize = 12
+            TextBox.TextSize = GetTextSize(17)
             TextBox.TextColor3 = theme.Text
             TextBox.PlaceholderColor3 = theme.TextDim
             TextBox.BackgroundTransparency = 1
@@ -948,7 +959,7 @@ function UniversalLibrary:CreateWindow(config)
             local callback = opt.Callback or function() end
 
             local DropCard = Instance.new("Frame")
-            DropCard.Size = UDim2.new(1, 0, 0, 44)
+            DropCard.Size = UDim2.new(1, 0, 0, 54)
             DropCard.BackgroundColor3 = theme.Surface
             DropCard.BackgroundTransparency = theme.SurfaceTransparency or 0
             DropCard.Parent = TabPage
@@ -958,22 +969,22 @@ function UniversalLibrary:CreateWindow(config)
             local Label = Instance.new("TextLabel")
             Label.Text = dropName
             Label.Font = theme.Font
-            Label.TextSize = 13
+            Label.TextSize = GetTextSize(18)
             Label.TextColor3 = theme.Text
             Label.TextXAlignment = Enum.TextXAlignment.Left
             Label.Position = UDim2.new(0, 14, 0, 0)
-            Label.Size = UDim2.new(0.45, 0, 1, 0)
+            Label.Size = UDim2.new(0.48, 0, 1, 0)
             Label.BackgroundTransparency = 1
             Label.Parent = DropCard
 
             local SelBtn = Instance.new("TextButton")
             SelBtn.Text = current .. "  ▼"
             SelBtn.Font = Enum.Font.GothamBold
-            SelBtn.TextSize = 12
+            SelBtn.TextSize = GetTextSize(17)
             SelBtn.TextColor3 = theme.Primary
             SelBtn.TextXAlignment = Enum.TextXAlignment.Right
-            SelBtn.Size = UDim2.new(0.5, -14, 1, 0)
-            SelBtn.Position = UDim2.new(0.5, 0, 0, 0)
+            SelBtn.Size = UDim2.new(0.52, -14, 1, 0)
+            SelBtn.Position = UDim2.new(0.48, 0, 0, 0)
             SelBtn.BackgroundTransparency = 1
             SelBtn.Parent = DropCard
 
@@ -999,7 +1010,7 @@ function UniversalLibrary:CreateWindow(config)
             local callback = opt.Callback or function() end
 
             local KeyCard = Instance.new("Frame")
-            KeyCard.Size = UDim2.new(1, 0, 0, 48)
+            KeyCard.Size = UDim2.new(1, 0, 0, 62)
             KeyCard.BackgroundColor3 = theme.Surface
             KeyCard.BackgroundTransparency = theme.SurfaceTransparency or 0
             KeyCard.Parent = TabPage
@@ -1009,33 +1020,33 @@ function UniversalLibrary:CreateWindow(config)
             local Label = Instance.new("TextLabel")
             Label.Text = keyName
             Label.Font = theme.Font
-            Label.TextSize = 13
+            Label.TextSize = GetTextSize(18)
             Label.TextColor3 = theme.Text
             Label.TextXAlignment = Enum.TextXAlignment.Left
-            Label.Position = UDim2.new(0, 14, 0, 6)
-            Label.Size = UDim2.new(1, -120, 0, 18)
+            Label.Position = UDim2.new(0, 14, 0, 8)
+            Label.Size = UDim2.new(1, -145, 0, 24)
             Label.BackgroundTransparency = 1
             Label.Parent = KeyCard
 
             local SubLabel = Instance.new("TextLabel")
             SubLabel.Text = keyDesc
             SubLabel.Font = Enum.Font.Gotham
-            SubLabel.TextSize = 11
+            SubLabel.TextSize = GetTextSize(15)
             SubLabel.TextColor3 = theme.TextDim
             SubLabel.TextXAlignment = Enum.TextXAlignment.Left
-            SubLabel.Position = UDim2.new(0, 14, 0, 26)
-            SubLabel.Size = UDim2.new(1, -120, 0, 16)
+            SubLabel.Position = UDim2.new(0, 14, 0, 33)
+            SubLabel.Size = UDim2.new(1, -145, 0, 20)
             SubLabel.BackgroundTransparency = 1
             SubLabel.Parent = KeyCard
 
             local KeyBtn = Instance.new("TextButton")
             KeyBtn.Text = "[ " .. (typeof(currentKey) == "EnumItem" and currentKey.Name or tostring(currentKey)) .. " ]"
             KeyBtn.Font = Enum.Font.GothamBold
-            KeyBtn.TextSize = 12
+            KeyBtn.TextSize = GetTextSize(17)
             KeyBtn.TextColor3 = theme.Primary
             KeyBtn.BackgroundColor3 = theme.SurfaceHover
-            KeyBtn.Size = UDim2.new(0, 100, 0, 28)
-            KeyBtn.Position = UDim2.new(1, -114, 0.5, -14)
+            KeyBtn.Size = UDim2.new(0, 130, 0, 36)
+            KeyBtn.Position = UDim2.new(1, -140, 0.5, -18)
             KeyBtn.Parent = KeyCard
             AddCorner(KeyBtn, 6)
 

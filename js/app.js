@@ -59,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const radiusValEl = document.getElementById('radiusVal');
     const borderInput = document.getElementById('borderInput');
     const borderValEl = document.getElementById('borderVal');
+    const textScaleInput = document.getElementById('textScaleInput');
+    const textScaleValEl = document.getElementById('textScaleVal');
 
     // Initialize Category Filter Pills
     function renderCategoryPills() {
@@ -155,6 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
         root.style.setProperty('--theme-shadow-y', `${geom.shadowOffsetY}px`);
         root.style.setProperty('--theme-shadow-blur', `${geom.shadowBlur}px`);
         root.style.setProperty('--theme-font', currentTheme.typography.webFont);
+        const activeFontScale = currentTheme.typography?.fontScale || 1.20;
+        root.style.setProperty('--theme-font-scale', `${activeFontScale}`);
 
         // Header Elements (with icon)
         if (rbxHeaderIconEl) {
@@ -233,6 +237,15 @@ document.addEventListener('DOMContentLoaded', () => {
         radiusValEl.textContent = `${currentTheme.geometry.borderRadius}px`;
         borderInput.value = currentTheme.geometry.borderWidth;
         borderValEl.textContent = `${currentTheme.geometry.borderWidth}px`;
+
+        const fontScale = currentTheme.typography?.fontScale || 1.20;
+        if (textScaleInput) {
+            textScaleInput.value = Math.round(fontScale * 100);
+        }
+        if (textScaleValEl) {
+            const pct = Math.round(fontScale * 100);
+            textScaleValEl.textContent = `${pct}% (${pct >= 120 ? 'Lớn, Cực rõ nét' : 'Chuẩn'})`;
+        }
     }
 
     // Render interactive widgets inside the simulated Roblox window
@@ -302,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="rbx-toggle-title">Phím tắt bật/tắt menu</span>
                     <span class="rbx-toggle-desc">${isListeningKeybind ? 'Nhấn bất kỳ phím nào trên bàn phím...' : 'Nhấn để thay đổi phím tắt'}</span>
                 </div>
-                <button class="rbx-button-widget" id="rbxKeybindBtn" style="padding: 6px 14px; font-size: 13px;">
+                <button class="rbx-button-widget" id="rbxKeybindBtn" style="padding: 8px 16px; font-size: var(--fs-keybind); font-weight: 800;">
                     [ ${currentKeybind} ]
                 </button>
             </div>
@@ -584,7 +597,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Regenerate and update the Luau Code Output Box
     function updateLuauCode() {
-        const luaScript = RobloxConverter.generateLuaScript(currentTheme, currentWindowSize);
+        const textScale = currentTheme.typography?.fontScale || (textScaleInput ? parseInt(textScaleInput.value, 10) / 100 : 1.20);
+        const luaScript = RobloxConverter.generateLuaScript(currentTheme, { ...currentWindowSize, textScale });
         luaCodeOutputEl.textContent = luaScript;
     }
 
@@ -615,6 +629,17 @@ document.addEventListener('DOMContentLoaded', () => {
         applyCurrentTheme();
     });
 
+    if (textScaleInput && textScaleValEl) {
+        textScaleInput.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value, 10);
+            textScaleValEl.textContent = `${val}% (${val >= 120 ? 'Lớn, Cực rõ nét' : 'Chuẩn'})`;
+            robloxWindowEl.style.setProperty('--theme-font-scale', `${val / 100}`);
+            if (!currentTheme.typography) currentTheme.typography = {};
+            currentTheme.typography.fontScale = val / 100;
+            updateLuauCode();
+        });
+    }
+
     // Tool Tab Switching (Customizer / Luau / Transpiler)
     document.querySelectorAll('.tool-tab-btn').forEach(tabBtn => {
         tabBtn.addEventListener('click', () => {
@@ -636,7 +661,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Copy Lua Code button
     copyLuaBtn.addEventListener('click', () => {
-        const script = RobloxConverter.generateLuaScript(currentTheme, currentWindowSize);
+        const textScale = currentTheme.typography?.fontScale || (textScaleInput ? parseInt(textScaleInput.value, 10) / 100 : 1.20);
+        const script = RobloxConverter.generateLuaScript(currentTheme, { ...currentWindowSize, textScale });
         navigator.clipboard.writeText(script).then(() => {
             AudioFx.play('retro');
             showWebToast('Đã sao chép mã nguồn Luau vào Clipboard!', 'success');
@@ -645,7 +671,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Download .lua file button
     downloadLuaBtn.addEventListener('click', () => {
-        const script = RobloxConverter.generateLuaScript(currentTheme, currentWindowSize);
+        const textScale = currentTheme.typography?.fontScale || (textScaleInput ? parseInt(textScaleInput.value, 10) / 100 : 1.20);
+        const script = RobloxConverter.generateLuaScript(currentTheme, { ...currentWindowSize, textScale });
         const fileName = `RobloxUILib_${currentTheme.id.replace(/-/g, '_')}.lua`;
         const blob = new Blob([script], { type: 'text/plain;charset=utf-8' });
         const url = URL.createObjectURL(blob);

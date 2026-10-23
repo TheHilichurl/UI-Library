@@ -20,11 +20,27 @@
     transform-origin: center center;
     transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     backdrop-filter: blur(12px);
+
+    /* Dynamic Scaled Font Engine - Generous, Prominent & Sharp */
+    --font-scale: var(--theme-font-scale, 1.20);
+    --fs-title: calc(20px * var(--font-scale));
+    --fs-subtitle: calc(13.5px * var(--font-scale));
+    --fs-tab: calc(16.5px * var(--font-scale));
+    --fs-btn: calc(17px * var(--font-scale));
+    --fs-label: calc(17px * var(--font-scale));
+    --fs-desc: calc(14px * var(--font-scale));
+    --fs-value: calc(17px * var(--font-scale));
+    --fs-input: calc(16px * var(--font-scale));
+    --fs-dropdown: calc(16.5px * var(--font-scale));
+    --fs-dropdown-item: calc(15.5px * var(--font-scale));
+    --fs-keybind: calc(16px * var(--font-scale));
+    --fs-toast-title: calc(17.5px * var(--font-scale));
+    --fs-toast-desc: calc(14px * var(--font-scale));
 }
 
 /* Window Header Bar */
 .rbx-header {
-    height: 52px;
+    height: 56px;
     background-color: var(--theme-surface, #151722);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
@@ -46,16 +62,16 @@
 
 .rbx-title {
     font-family: var(--theme-font, 'Orbitron', sans-serif);
-    font-size: 15px;
-    font-weight: 700;
+    font-size: var(--fs-title);
+    font-weight: 800;
     color: var(--theme-primary, #fcee0a);
     letter-spacing: 0.5px;
 }
 
 .rbx-subtitle {
-    font-size: 11px;
+    font-size: var(--fs-subtitle);
     color: var(--theme-text-dim, #8b9bb4);
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .rbx-window-controls {
@@ -75,7 +91,7 @@
     border-radius: calc(var(--theme-radius, 8px) / 2);
     color: var(--theme-text-dim, #8b9bb4);
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13px;
     transition: 0.15s ease;
 }
 .rbx-control-btn:hover {
@@ -93,10 +109,10 @@
 
 /* Sidebar Tabs Navigation */
 .rbx-sidebar {
-    width: 150px;
+    width: 175px;
     background-color: var(--theme-surface, #151722);
     border-right: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 12px 8px;
+    padding: 12px 10px;
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -106,15 +122,15 @@
 .rbx-tab-btn {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
+    gap: 10px;
+    padding: 10px 14px;
     background: transparent;
     border: 1px solid transparent;
     border-radius: calc(var(--theme-radius, 8px) - 2px);
     color: var(--theme-text-dim, #8b9bb4);
     font-family: var(--theme-font, inherit);
-    font-size: 12px;
-    font-weight: 600;
+    font-size: var(--fs-tab);
+    font-weight: 700;
     cursor: pointer;
     transition: 0.2s ease;
     text-align: left;
@@ -151,11 +167,11 @@
     background-color: var(--theme-surface, #151722);
     border: 1px solid var(--theme-border, #fcee0a);
     border-radius: calc(var(--theme-radius, 8px) - 2px);
-    padding: 10px 16px;
+    padding: 12px 18px;
     color: var(--theme-text, #ffffff);
     font-family: var(--theme-font, inherit);
-    font-size: 13px;
-    font-weight: 600;
+    font-size: var(--fs-btn);
+    font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -189,7 +205,7 @@
     background-color: var(--theme-surface, #151722);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: calc(var(--theme-radius, 8px) - 2px);
-    padding: 10px 14px;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -209,21 +225,22 @@
 
 .rbx-toggle-title {
     font-family: var(--theme-font, inherit);
-    font-size: 13px;
-    font-weight: 600;
+    font-size: var(--fs-label);
+    font-weight: 700;
     color: var(--theme-text, #ffffff);
 }
 
 .rbx-toggle-desc {
-    font-size: 11px;
+    font-size: var(--fs-desc);
     color: var(--theme-text-dim, #8b9bb4);
+    font-weight: 500;
 }
 
 .rbx-switch-track {
-    width: 44px;
-    height: 24px;
+    width: 46px;
+    height: 26px;
     background-color: rgba(255, 255, 255, 0.12);
-    border-radius: 12px;
+    border-radius: 13px;
     position: relative;
     transition: background-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -234,8 +251,8 @@
 }
 
 .rbx-switch-thumb {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     background-color: #ffffff;
     border-radius: 50%;
     position: absolute;
@@ -255,10 +272,10 @@
     background-color: var(--theme-surface, #151722);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: calc(var(--theme-radius, 8px) - 2px);
-    padding: 12px 14px;
+    padding: 12px 16px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .rbx-slider-header {
@@ -269,23 +286,23 @@
 
 .rbx-slider-title {
     font-family: var(--theme-font, inherit);
-    font-size: 13px;
-    font-weight: 600;
+    font-size: var(--fs-label);
+    font-weight: 700;
     color: var(--theme-text, #ffffff);
 }
 
 .rbx-slider-value {
-    font-size: 12px;
-    font-weight: 700;
+    font-size: var(--fs-value);
+    font-weight: 800;
     font-family: 'JetBrains Mono', monospace;
     color: var(--theme-primary, #fcee0a);
 }
 
 .rbx-slider-track {
     width: 100%;
-    height: 6px;
+    height: 8px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
+    border-radius: 4px;
     position: relative;
     cursor: pointer;
 }
@@ -293,14 +310,14 @@
 .rbx-slider-fill {
     height: 100%;
     background: var(--theme-primary, #fcee0a);
-    border-radius: 3px;
+    border-radius: 4px;
     box-shadow: 0 0 8px var(--theme-primary-glow, rgba(252, 238, 10, 0.4));
     transition: width 0.05s linear;
 }
 
 .rbx-slider-thumb {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     background: #ffffff;
     border-radius: 50%;
     position: absolute;
@@ -315,7 +332,7 @@
     background-color: var(--theme-surface, #151722);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: calc(var(--theme-radius, 8px) - 2px);
-    padding: 10px 14px;
+    padding: 11px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -330,8 +347,8 @@
 
 .rbx-input-label {
     font-family: var(--theme-font, inherit);
-    font-size: 13px;
-    font-weight: 600;
+    font-size: var(--fs-label);
+    font-weight: 700;
     color: var(--theme-text, #ffffff);
     white-space: nowrap;
 }
@@ -341,8 +358,8 @@
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 4px;
-    padding: 6px 10px;
-    font-size: 12px;
+    padding: 8px 12px;
+    font-size: var(--fs-input);
     color: var(--theme-text, #ffffff);
     outline: none;
     font-family: inherit;
@@ -356,7 +373,7 @@
     background-color: var(--theme-surface, #151722);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: calc(var(--theme-radius, 8px) - 2px);
-    padding: 10px 14px;
+    padding: 11px 16px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -370,8 +387,8 @@
 }
 
 .rbx-dropdown-selected {
-    font-size: 12px;
-    font-weight: 600;
+    font-size: var(--fs-dropdown);
+    font-weight: 700;
     color: var(--theme-primary, #fcee0a);
     display: flex;
     align-items: center;
@@ -390,9 +407,9 @@
 }
 
 .rbx-dropdown-item {
-    padding: 6px 10px;
+    padding: 8px 12px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: var(--fs-dropdown-item);
     color: var(--theme-text-dim, #8b9bb4);
     background: rgba(0, 0, 0, 0.2);
     transition: 0.15s ease;
@@ -412,7 +429,7 @@
     position: absolute;
     top: 50px;
     right: 16px;
-    width: 280px;
+    width: 290px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -424,7 +441,7 @@
     background-color: var(--theme-surface, #151722);
     border: 1px solid var(--theme-border, #fcee0a);
     border-radius: calc(var(--theme-radius, 8px) - 2px);
-    padding: 10px 14px;
+    padding: 12px 16px;
     display: flex;
     gap: 10px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
@@ -451,21 +468,21 @@
 .rbx-toast-body {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
     padding-left: 6px;
 }
 
 .rbx-toast-title {
     font-family: var(--theme-font, inherit);
-    font-size: 13px;
+    font-size: var(--fs-toast-title);
     font-weight: 700;
     color: var(--theme-text, #ffffff);
 }
 
 .rbx-toast-desc {
-    font-size: 11px;
+    font-size: var(--fs-toast-desc);
     color: var(--theme-text-dim, #8b9bb4);
-    line-height: 1.3;
+    line-height: 1.35;
 }
 
 /* Header Icon */
